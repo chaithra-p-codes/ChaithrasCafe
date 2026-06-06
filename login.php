@@ -32,8 +32,8 @@ if (isset($_POST['login'])) {
     <div class="container">
         <h1>Chaithra's Cafe</h1>
         <form method="POST" onsubmit="return validateLogin()">
-            <input type="email" id="email" name="email" placeholder="Email" required>
-            <span id="loginEmailError" class="error"></span>
+            <input type="text" id="username" name="username" placeholder="Username" required>
+            <span id="loginUsernameError" class="error"></span>
 
             <input type="password" id="password" name="password" placeholder="Password" required>
             <span id="loginPasswordError" class="error"></span>

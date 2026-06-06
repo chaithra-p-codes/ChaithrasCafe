@@ -96,33 +96,35 @@ function validateRegister() {
 // 4. onsubmit (Login)
 function validateLogin() {
 
-    document.getElementById("loginEmailError").innerHTML = "";
+    document.getElementById("loginUsernameError").innerHTML = "";
     document.getElementById("loginPasswordError").innerHTML = "";
 
-    let email = document.getElementById("email").value.trim();
+    let username = document.getElementById("username").value.trim();
     let password = document.getElementById("password").value.trim();
-
-    let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     let valid = true;
 
-    if(email === ""){
-        document.getElementById("loginEmailError").innerHTML = "Email is required";
+    if(username === ""){
+        document.getElementById("loginUsernameError").innerHTML =
+        "Username is required";
         valid = false;
     }
 
-    else if(!emailPattern.test(email)){
-        document.getElementById("loginEmailError").innerHTML = "Enter valid email";
+    else if(username.length < 4){
+        document.getElementById("loginUsernameError").innerHTML =
+        "Minimum 4 characters";
         valid = false;
     }
 
     if(password === ""){
-        document.getElementById("loginPasswordError").innerHTML = "Password is required";
+        document.getElementById("loginPasswordError").innerHTML =
+        "Password is required";
         valid = false;
     }
 
     else if(password.length < 6){
-        document.getElementById("loginPasswordError").innerHTML = "Minimum 6 characters";
+        document.getElementById("loginPasswordError").innerHTML =
+        "Minimum 6 characters";
         valid = false;
     }
 

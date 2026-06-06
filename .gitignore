@@ -1,0 +1,9 @@
+# VS Code settings
+.vscode/
+
+# System files
+Thumbs.db
+.DS_Store
+
+# Local temporary file
+users.txt

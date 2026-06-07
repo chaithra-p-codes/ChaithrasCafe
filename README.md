@@ -89,11 +89,9 @@ ChaithrasCafe/
 │── login.php
 │── logout.php
 │── order.php
-│── README.md
 │── register.php
 │── script.js
 │── style.css
-│── users.txt
 ```
 
 ---

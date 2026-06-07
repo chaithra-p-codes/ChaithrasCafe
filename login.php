@@ -10,14 +10,12 @@ if (isset($_POST['login'])) {
 
     if (mysqli_num_rows($result) > 0) {
         $user = mysqli_fetch_assoc($result);
-
         $_SESSION['user'] = $username;
         $_SESSION['address'] = $user['address'];
-
         header("Location: dashboard.php");
         exit();
     } else {
-        $error = "Invalid Login";
+        $error = "Invalid username or password";
     }
 }
 ?>
@@ -26,30 +24,27 @@ if (isset($_POST['login'])) {
 <head>
     <title>Login</title>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 </head>
 <body>
-    <div class="container">
+    <div class="login-container">
         <h1>Chaithra's Cafe</h1>
-        <form method="POST" onsubmit="return validateLogin()">
-            <input type="text" id="username" name="username" placeholder="Username" required>
+        <form method="POST" onsubmit="return validateLogin()" novalidate>
+            <input type="text" id="username" name="username" placeholder="Username">
             <span id="loginUsernameError" class="error"></span>
 
-            <input type="password" id="password" name="password" placeholder="Password" required>
+            <input type="password" id="password" name="password" placeholder="Password">
             <span id="loginPasswordError" class="error"></span>
 
             <button type="submit" name="login">Login</button>
         </form>
-        <br>
-        <center>
-            <a href="register.php">Create Account</a>
-        </center>
-        <div class="error">
-            <?php
-            if (isset($error)) {
-                echo $error;
-            }
-            ?>
+
+        <?php if (isset($error)) { ?>
+            <p class="error" style="text-align:center; margin-top:10px;"><?php echo $error; ?></p>
+        <?php } ?>
+
+        <div class="login-link">
+            <a href="register.php">Don't have an account? Create one</a>
         </div>
     </div>
 </body>

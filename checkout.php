@@ -33,7 +33,7 @@ $grandTotal = $subtotal + $gst + $delivery;
 <head>
     <title>Checkout</title>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 </head>
 <body>
     <header>
@@ -46,7 +46,7 @@ $grandTotal = $subtotal + $gst + $delivery;
             <input type="text" name="name" value="<?php echo $user['name']; ?>" required>
             <input type="text" name="phone" value="<?php echo $user['phone']; ?>" required>
             <textarea name="address" required><?php echo $user['address']; ?></textarea>
-            <input type="text" name="pincode" value="<?php echo $user['pincode']; ?>" required>
+            <input type="text" name="pincode" value="<?php echo $user['pincode']; ?>" required><br><br>
 
             <h2>Payment Method</h2>
             <select name="payment" id="paymentMethod" onchange="showPaymentFields()" required>
@@ -66,7 +66,7 @@ $grandTotal = $subtotal + $gst + $delivery;
                 <input type="text" name="cardNumber" placeholder="Card Number">
                 <input type="text" name="cvv" placeholder="CVV">
                 <input type="month" name="expiry">
-            </div>
+            </div><br><br>
 
             <h2>Bill Summary</h2>
             <p>Subtotal: ₹<?php echo $subtotal; ?></p>

@@ -1,29 +1,16 @@
-// 1. onload
-window.onload=function()
-{
-    if(sessionStorage.getItem("welcomeShown")=== null)
-    {
-        alert("Welcome to Chaithra's Cafe");
-        sessionStorage.setItem("welcomeShown","true");
-    }
-}
-
-// 2. onfocus
+// 1. onfocus
 function focusField(x) {
     x.style.border = "3px solid yellow";
 }
 
-// 3. onsubmit (Register)
+// 2. onsubmit (Register)
 function validateRegister() {
 
-    document.getElementById("nameError").innerHTML = "";
-    document.getElementById("emailError").innerHTML = "";
-    document.getElementById("phoneError").innerHTML = "";
-    document.getElementById("addressError").innerHTML = "";
-    document.getElementById("pincodeError").innerHTML = "";
-    document.getElementById("usernameError").innerHTML = "";
-    document.getElementById("passwordError").innerHTML = "";
-    document.getElementById("confirmError").innerHTML = "";
+    let valid = true;
+
+    document.querySelectorAll(".error").forEach(function(el) {
+        el.innerHTML = "";
+    });
 
     let name = document.getElementById("name").value.trim();
     let email = document.getElementById("email").value.trim();
@@ -31,107 +18,111 @@ function validateRegister() {
     let address = document.getElementById("address").value.trim();
     let pincode = document.getElementById("pincode").value.trim();
     let username = document.getElementById("username").value.trim();
-    let password = document.getElementById("password").value.trim();
-    let confirm = document.getElementById("confirm").value.trim();
+    let password = document.getElementById("password").value;
+    let confirm = document.getElementById("confirm").value;
 
-    let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    let emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
     let phonePattern = /^[0-9]{10}$/;
     let pincodePattern = /^[0-9]{6}$/;
 
-    let valid = true;
-
-    if(name.length < 3){
-        document.getElementById("nameError").innerHTML = "Minimum 3 characters";
+    if(name === "") {
+        document.getElementById("nameError").innerHTML =
+        "Name is required";
         valid = false;
     }
 
-    if(!emailPattern.test(email)){
-        document.getElementById("emailError").innerHTML = "Invalid email";
+    if(email === "") {
+        document.getElementById("emailError").innerHTML =
+        "Email is required";
+        valid = false;
+    }
+    else if(!email.match(emailPattern)) {
+        document.getElementById("emailError").innerHTML =
+        "Invalid email format";
         valid = false;
     }
 
-    if(!phonePattern.test(phone)){
-        document.getElementById("phoneError").innerHTML = "10 digit number required";
+    if(!phone.match(phonePattern)) {
+        document.getElementById("phoneError").innerHTML =
+        "Enter valid 10 digit phone number";
         valid = false;
     }
 
-    if(address.length < 10){
-        document.getElementById("addressError").innerHTML = "Enter proper address";
+    if(address.length < 10) {
+        document.getElementById("addressError").innerHTML =
+        "Enter proper address";
         valid = false;
     }
 
-    if(!pincodePattern.test(pincode)){
-        document.getElementById("pincodeError").innerHTML = "Invalid pincode";
+    if(!pincode.match(pincodePattern)) {
+        document.getElementById("pincodeError").innerHTML =
+        "Invalid pincode";
         valid = false;
     }
 
-    if(username.length < 4){
-        document.getElementById("usernameError").innerHTML = "Minimum 4 characters";
-        valid = false;
-    }
-
-    if(password.length < 6){
-        document.getElementById("passwordError").innerHTML = "Minimum 6 characters";
-        valid = false;
-    }
-
-    if(password.search(/[A-Z]/) < 0){
-        document.getElementById("passwordError").innerHTML = "Add one capital letter";
-        valid = false;
-    }
-
-    if(password.search(/[0-9]/) < 0){
-        document.getElementById("passwordError").innerHTML = "Add one number";
-        valid = false;
-    }
-
-    if(password !== confirm){
-        document.getElementById("confirmError").innerHTML = "Passwords do not match";
-        valid = false;
-    }
-
-    return valid;
-}
-
-// 4. onsubmit (Login)
-function validateLogin() {
-
-    document.getElementById("loginUsernameError").innerHTML = "";
-    document.getElementById("loginPasswordError").innerHTML = "";
-
-    let username = document.getElementById("username").value.trim();
-    let password = document.getElementById("password").value.trim();
-
-    let valid = true;
-
-    if(username === ""){
-        document.getElementById("loginUsernameError").innerHTML =
-        "Username is required";
-        valid = false;
-    }
-
-    else if(username.length < 4){
-        document.getElementById("loginUsernameError").innerHTML =
+    if(username.length < 4) {
+        document.getElementById("usernameError").innerHTML =
         "Minimum 4 characters";
         valid = false;
     }
 
-    if(password === ""){
-        document.getElementById("loginPasswordError").innerHTML =
-        "Password is required";
+    if(password.length < 6) {
+        document.getElementById("passwordError").innerHTML =
+        "Password must contain at least 6 characters";
         valid = false;
     }
 
-    else if(password.length < 6){
-        document.getElementById("loginPasswordError").innerHTML =
-        "Minimum 6 characters";
+    if(confirm !== password) {
+        document.getElementById("confirmError").innerHTML =
+        "Passwords do not match";
         valid = false;
     }
 
     return valid;
 }
 
-// 5. onkeyup (Search functionality)
+// 3. onsubmit (Login)
+function validateLogin() {
+
+    let valid = true;
+
+    document.getElementById("loginUsernameError").innerHTML = "";
+    document.getElementById("loginPasswordError").innerHTML = "";
+
+    let username =
+    document.getElementById("username").value.trim();
+
+    let password =
+    document.getElementById("password").value.trim();
+
+    if(username === "") {
+
+        document.getElementById(
+        "loginUsernameError"
+        ).innerHTML =
+        "Username is required";
+
+        valid = false;
+    }
+
+    if(password === "") {
+
+        document.getElementById(
+        "loginPasswordError"
+        ).innerHTML =
+        "Password is required";
+
+        valid = false;
+    }
+
+    if(valid === false) {
+        return false;
+    }
+
+    return true;
+}
+
+// 4. onkeyup (Search functionality)
 function searchItems() {
     let input = document.getElementById("searchBox").value.toLowerCase();
     let items = document.getElementsByClassName("item");
@@ -142,7 +133,7 @@ function searchItems() {
     }
 }
 
-// 6. onclick (Add to cart)
+// 5. onclick (Add to cart)
 function addToCart(item, price) {
     fetch("add_to_cart.php", {
         method: "POST",
@@ -156,7 +147,7 @@ function addToCart(item, price) {
     });
 }
 
-// 7. Update quantity on dashboard
+// 6. Update quantity on dashboard
 function updateQuantity(item) {
     fetch("get_quantity.php?item=" + item)
     .then(response => response.text())
@@ -166,24 +157,24 @@ function updateQuantity(item) {
     });
 }
 
-// 8. ondblclick (Quick Buy)
+// 7. ondblclick (Quick Buy)
 function quickBuy(item) {
     alert(item + " ordered instantly!");
 }
 
-// 9. onmouseover (Highlight item)
+// 8. onmouseover (Highlight item)
 function highlight(x) {
     x.style.transform = "scale(1.05)";
     x.style.boxShadow = "0px 0px 20px yellow";
 }
 
-// 10. onmouseout (Remove highlight)
+// 9. onmouseout (Remove highlight)
 function removeHighlight(x) {
     x.style.transform = "scale(1)";
     x.style.boxShadow = "none";
 }
 
-// 11. onchange (Payment Method) 
+// 10. onchange (Payment Method) 
 function showPaymentFields() {
     let payment = document.getElementById("paymentMethod").value;
 
@@ -197,4 +188,9 @@ function showPaymentFields() {
     if (payment === "Card") {
         document.getElementById("cardField").style.display = "block";
     }
+}
+
+// 11. onblur
+function blurField(x) {
+    x.style.border = "";
 }

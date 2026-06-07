@@ -41,7 +41,7 @@ $grandTotal = $subtotal + $gst + $delivery;
     </header>
 
     <div class="container">
-        <form action="order.php" method="POST">
+        <form action="order.php" method="POST" onsubmit="return validatePayment()">
             <h2>Delivery Details</h2>
             <input type="text" name="name" value="<?php echo $user['name']; ?>" required>
             <input type="text" name="phone" value="<?php echo $user['phone']; ?>" required>
@@ -51,22 +51,23 @@ $grandTotal = $subtotal + $gst + $delivery;
             <h2>Payment Method</h2>
             <select name="payment" id="paymentMethod" onchange="showPaymentFields()" required>
                 <option value="">Choose Payment</option>
-                <option>Cash on Delivery</option>
-                <option>UPI</option>
-                <option>Card</option>
-                <option>Net Banking</option>
+                <option value="COD">Cash on Delivery</option>
+                <option value="UPI">UPI</option>
+                <option value="Card">Card</option>
             </select>
 
             <!-- Dynamic Payment Fields -->
-            <div id="upiField" style="display:none;">
-                <input type="text" name="upi" placeholder="Enter UPI ID">
-            </div>
+           <div id="upiField" style="display:none;">
+            <input type="text" id="upiId" placeholder="Enter UPI ID">
+            <span id="upiError" class="error"></span>
+           </div>
 
-            <div id="cardField" style="display:none;">
-                <input type="text" name="cardNumber" placeholder="Card Number">
-                <input type="text" name="cvv" placeholder="CVV">
-                <input type="month" name="expiry">
-            </div><br><br>
+           <div id="cardField" style="display:none;">
+            <input type="text" id="cardNumber" placeholder="Enter Card Number">
+            <span id="cardError" class="error"></span>
+            <input type="password" id="cvv" placeholder="Enter CVV">
+            <span id="cvvError" class="error"></span>
+           </div><br><br>
 
             <h2>Bill Summary</h2>
             <p>Subtotal: ₹<?php echo $subtotal; ?></p>

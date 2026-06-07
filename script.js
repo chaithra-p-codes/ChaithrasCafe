@@ -157,24 +157,19 @@ function updateQuantity(item) {
     });
 }
 
-// 7. ondblclick (Quick Buy)
-function quickBuy(item) {
-    alert(item + " ordered instantly!");
-}
-
-// 8. onmouseover (Highlight item)
+// 7. onmouseover (Highlight item)
 function highlight(x) {
     x.style.transform = "scale(1.05)";
     x.style.boxShadow = "0px 0px 20px yellow";
 }
 
-// 9. onmouseout (Remove highlight)
+// 8. onmouseout (Remove highlight)
 function removeHighlight(x) {
     x.style.transform = "scale(1)";
     x.style.boxShadow = "none";
 }
 
-// 10. onchange (Payment Method) 
+// 9. onchange (Payment Method) 
 function showPaymentFields() {
     let payment = document.getElementById("paymentMethod").value;
 
@@ -190,7 +185,73 @@ function showPaymentFields() {
     }
 }
 
-// 11. onblur
+// 10. onblur
 function blurField(x) {
     x.style.border = "";
+}
+
+//11. onsubmit (payment validation)
+function validatePayment() {
+
+    let payment =
+    document.getElementById("paymentMethod").value;
+
+    let valid = true;
+
+    // clear old errors
+    document.getElementById("upiError").innerHTML = "";
+    document.getElementById("cardError").innerHTML = "";
+    document.getElementById("cvvError").innerHTML = "";
+
+    // UPI Validation
+    if(payment === "UPI") {
+
+        let upi =
+        document.getElementById("upiId").value.trim();
+
+        let upiPattern =
+        /^[a-zA-Z0-9._-]{2,}@[a-zA-Z]{2,}$/;
+
+        if(!upiPattern.test(upi)) {
+
+            document.getElementById("upiError").innerHTML =
+            "Enter valid UPI ID";
+
+            valid = false;
+        }
+    }
+
+    // Card Validation
+    if(payment === "Card") {
+
+        let card =
+        document.getElementById("cardNumber").value.trim();
+
+        let cvv =
+        document.getElementById("cvv").value.trim();
+
+        let cardPattern =
+        /^[0-9]{16}$/;
+
+        let cvvPattern =
+        /^[0-9]{3}$/;
+
+        if(!cardPattern.test(card)) {
+
+            document.getElementById("cardError").innerHTML =
+            "Card number must be 16 digits";
+
+            valid = false;
+        }
+
+        if(!cvvPattern.test(cvv)) {
+
+            document.getElementById("cvvError").innerHTML =
+            "CVV must be 3 digits";
+
+            valid = false;
+        }
+    }
+
+    return valid;
 }
